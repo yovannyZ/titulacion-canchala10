@@ -143,7 +143,6 @@ public class AdaptadorCampos extends
             if (view.getId() == btnReservar.getId()){
                 int count = recyclerHorarios.getAdapter().getItemCount();
                 List<Integer> data = new ArrayList<Integer>() ;
-                String sss = "";
                 for (int i = 0; i < count; i++){
                     ViewGroup row = (ViewGroup) recyclerHorarios.getChildAt(i);
                     CheckBox tvTest = (CheckBox) row.findViewById(R.id.chkHorario);
@@ -152,14 +151,13 @@ public class AdaptadorCampos extends
                     if(v){
                         data.add(i);
                     }
-
                 }
 
                 for (int i = 0; i < data.size(); i++){
                     horaiosElegidos.add(adaptadorHorarios.horarios.get(data.get(i)));
                 }
 
-                Toast.makeText(view.getContext(), sss + campos.get(getAdapterPosition())
+                Toast.makeText(view.getContext(),  campos.get(getAdapterPosition())
                         .getDescripcion(), Toast.LENGTH_SHORT).show();
 
                 this.activity =(Activity) view.getContext();

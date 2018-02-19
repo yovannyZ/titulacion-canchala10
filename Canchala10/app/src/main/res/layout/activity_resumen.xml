@@ -12,7 +12,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="@string/titulo_resumen"
             android:textColor="#000"
@@ -25,7 +25,7 @@
             android:layout_below="@+id/login_title"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="60dp"
             android:background="#fff"
             android:elevation="4dp"
             android:orientation="vertical"
@@ -35,7 +35,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="30dp">
+                android:paddingTop="20dp">
 
 
                 <TextView
@@ -98,18 +98,28 @@
                     android:id="@+id/btnReserva"
                     android:onClick="confirmarReserva"/>
 
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/ic_coin"
+                    android:drawablePadding="5dp"
+                    android:id="@+id/tvReservaExitosa"
+                    />
+
             </LinearLayout>
 
         </RelativeLayout>
 
         <ImageButton
             android:id="@+id/ivCampo"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_below="@+id/login_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
             android:background="@drawable/user_profile_image_background"
             android:elevation="4dp"
             android:src="@drawable/profile_icon" />
+
+
     </RelativeLayout>

@@ -1,21 +1,20 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
-class Reserva extends \Restserver\Libraries\REST_Controller
+class ReservaDetalle extends \Restserver\Libraries\REST_Controller
 {
     public function __construct()
     {
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         parent::__construct();
-        $this->load->model('Reserva_model');
-
+        $this->load->model('ReservaDetalle_model');
         
     }
 
     public function index_get()
     {
-        $data = $this->Reserva_model->getAll();
+        $data = $this->ReservaDetalle_model->getAll();
 
         if($data)
         {
@@ -29,7 +28,7 @@ class Reserva extends \Restserver\Libraries\REST_Controller
 
     public function find_get($id)
     {
-        $data = $this->Reserva_model->get($id);
+        $data = $this->ReservaDetalle_model->get($id);
 
         if($data)
         {
@@ -43,20 +42,18 @@ class Reserva extends \Restserver\Libraries\REST_Controller
     
     public function index_post()
     {
-
-        $dataReserva = array(
+        $data = array(
 			'id' =>  $this->post('id'),
-            'correo' => $this->post('correo'),
-            'fecha' => $this->post('fecha'),
-            'items' => $this->post('items')
+            'id_reserva' => $this->post('id_reserva'),
+            'id_tarifa' => $this->post('id_tarifa'),
+            'precio' => $this->post('precio')
         );
 
-        $id = $this->Reserva_model->create($dataReserva);
-
+        $id = $this->ReservaDetalle_model->create($data);
         if ($id) {
-            $this->response(array('status' => true, 'response' =>  $id), 200);
+            $this->response(array('status' => true, 'response' => $id), 200);
         } else {
-            $this->response(array('status' => false, 'response' =>  $id), 500);
+            $this->response(array('status' => false, 'response' => 'There was an error processing the data.'), 500);
         }
     }
 
@@ -64,11 +61,12 @@ class Reserva extends \Restserver\Libraries\REST_Controller
     {
         $data = array(
 			'id' =>  $this->put('id'),
-            'correo' => $this->put('correo'),
-            'fecha' => $this->put('fecha')   
+            'id_reserva' => $this->put('id_reserva'),
+            'id_tarifa' => $this->put('id_tarifa'),
+            'precio' => $this->put('precio')
         );
         
-        $update = $this->Campo_model->update($data);
+        $update = $this->ReservaDetalle_model->update($data);
         if ($update) {
             $this->response(array('status' => true, 'response' => $update), 200);
         } else {
@@ -82,7 +80,7 @@ class Reserva extends \Restserver\Libraries\REST_Controller
         if (!$id) {
             $this->response(array('status' => false, 'response' => 'A valid value was not entered.'), 400);
         }
-        $delete = $this->Campo_model->delete($id);
+        $delete = $this->ReservaDetalle_model->delete($id);
         if ($delete) {
             $this->response(array('status' => true, 'response' => $delete), 200);
         } else {
@@ -94,18 +92,6 @@ class Reserva extends \Restserver\Libraries\REST_Controller
         return $this->response(NULL, 200);
     }
 
-    public function getAllBySede_get($idSede)
-    {
-        $data = $this->Campo_model->getAllBySede($idSede);
-
-        if($data)
-        {
-            $this->response(array('status' => true, 'response' => $data), 200);
-        }
-        else
-        {
-            $this->response(array('status' => false, 'response' => $data), 200);
-        }   
-    }
+  
 }
 ?>

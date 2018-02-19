@@ -10,6 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,9 +36,14 @@ public class ResumenActivity extends AppCompatActivity {
     ListView lvHorarios;
     TextView tvTotalPagar;
     TextView tvHorarios;
+    TextView tvExitoReserva;
     SOService soService;
     List<Tarifa> tarifas;
+    List<Tarifa> tarifasSeleccionadas;
+    int REQUEST_CODE = 1;
 
+    Campo campo;
+    List<Horario> horarios;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +56,11 @@ public class ResumenActivity extends AppCompatActivity {
         tvTotalPagar = (TextView)findViewById(R.id.tvTotalPagar);
         tvHorarios = (TextView)findViewById(R.id.tvHorario);
         soService = ApiUtils.getSOService();
+        tvExitoReserva = (TextView)findViewById(R.id.tvReservaExitosa);
 
         Bundle bundle = getIntent().getExtras();
-        Campo campo = (Campo) bundle.getSerializable("campo");
-        List<Horario> horarios = (List<Horario>) bundle.getSerializable("horarios");
+        campo = (Campo) bundle.getSerializable("campo");
+        horarios = (List<Horario>) bundle.getSerializable("horarios");
         String tHorarios = "";
         tvSede.setText("Sede: " + campo.getSede().getDescripcion());
         tvDireccion.setText("Dirección: " + campo.getSede().getDireccion());
@@ -62,6 +69,18 @@ public class ResumenActivity extends AppCompatActivity {
 
         getTarifas(campo.getId(),horarios );
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                tvExitoReserva.setText("Reserva éxitosa");
+            }
+        }
     }
 
     private void getTarifas(String idCampo, final List<Horario> horarios){
@@ -78,7 +97,7 @@ public class ResumenActivity extends AppCompatActivity {
 
                     if(tarifaResponse.getStatus()){
                         tarifas = tarifaResponse.getTarifas();
-
+                        tarifasSeleccionadas = new ArrayList<Tarifa>();
                         for(int i = 0; i< horarios.size(); i++){
 
                            for(int j = 0; j < tarifas.size(); j++){
@@ -90,6 +109,7 @@ public class ResumenActivity extends AppCompatActivity {
                                b = horarios.get(i).getId();
 
                                if(a.equals(b)){
+                                   tarifasSeleccionadas.add(tarifas.get(j));
                                    lista.add("      Hora: " + horarios.get(i).getHoraInicio() + " - " + horarios.get(i).getHoraFin() + "  Precio: S/." +  formatter.format(new BigDecimal(tarifas.get(j).getPrecio())));
                                    totalPagar[0] = totalPagar[0].add(new BigDecimal(tarifas.get(j).getPrecio()));
                                    break;
@@ -115,7 +135,12 @@ public class ResumenActivity extends AppCompatActivity {
 
     public void confirmarReserva(View view){
         Intent intent = new Intent(getApplicationContext(), CobroActivity.class);
-        startActivity(intent);
+        Bundle bundleEnvio = new Bundle();
+        bundleEnvio.putSerializable("campo", campo);
+        bundleEnvio.putSerializable("tarifas",  (Serializable) tarifasSeleccionadas);
+        intent.putExtras(bundleEnvio);
+        startActivityForResult(intent, REQUEST_CODE);
+
     }
 
 }

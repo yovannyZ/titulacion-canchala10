@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by yovanny on 18/02/2018.
  */
 
-public class ReservaPostResponse {
+public class PostResponse {
 
     @SerializedName("status")
     @Expose

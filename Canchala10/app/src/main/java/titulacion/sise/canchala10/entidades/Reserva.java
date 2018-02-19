@@ -3,20 +3,19 @@ package titulacion.sise.canchala10.entidades;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by yovanny on 18/02/2018.
  */
 
-public class Reserva {
+public class Reserva implements Serializable {
 
     @SerializedName("id")
     @Expose
     private String id;
-    @SerializedName("codigo")
-    @Expose
-    private String codigo;
+
     @SerializedName("correo")
     @Expose
     private String correo;
@@ -34,14 +33,6 @@ public class Reserva {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
     }
 
     public String getCorreo() {

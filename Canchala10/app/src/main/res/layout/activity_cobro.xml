@@ -99,5 +99,6 @@
         android:onClick="PagarTarjeta"
         android:padding="5dp"
         android:text="@string/pagar"
-        android:textColor="@color/primary_light" />
+        android:textColor="@color/primary_light"
+        android:id="@+id/btnPagar"/>
 </LinearLayout>

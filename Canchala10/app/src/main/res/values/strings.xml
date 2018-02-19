@@ -17,6 +17,7 @@
     <string name="pagar">Pagar</string>
     <string name="guardar">Guardar</string>
     <string name="faltancampos">Faltan campos requeridos</string>
+    <string name="titulo_exito">Reserva Éxitosa</string>
 
 
 </resources>

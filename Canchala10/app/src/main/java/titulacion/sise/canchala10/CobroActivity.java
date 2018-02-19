@@ -4,26 +4,35 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import titulacion.sise.canchala10.Remote.Data.ReservaPostResponse;
-import titulacion.sise.canchala10.Remote.Data.ReservaResponse;
-import titulacion.sise.canchala10.Remote.Data.TarifaResponse;
+import titulacion.sise.canchala10.Remote.Data.PostResponse;
 import titulacion.sise.canchala10.Remote.SOService;
 import titulacion.sise.canchala10.Utils.ApiUtils;
+import titulacion.sise.canchala10.Utils.Global;
+import titulacion.sise.canchala10.entidades.Campo;
+import titulacion.sise.canchala10.entidades.Horario;
 import titulacion.sise.canchala10.entidades.Reserva;
 import titulacion.sise.canchala10.entidades.ReservaDetalle;
+import titulacion.sise.canchala10.entidades.Tarifa;
 
 public class CobroActivity extends AppCompatActivity {
 
@@ -33,8 +42,11 @@ public class CobroActivity extends AppCompatActivity {
     EditText tvAnio;
     EditText tvCvv;
     SOService soService;
-
+    FirebaseAuth mAuth;
+    List<Tarifa> tarifas;
     List<EditText> campos;
+    Button btnPagar;
+    DecimalFormat formatter = new DecimalFormat("#,###.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,32 +54,61 @@ public class CobroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cobro);
         Inicializecontrol();
         soService = ApiUtils.getSOService();
+        mAuth = FirebaseAuth.getInstance();
+
+        //obtenemos los parametros enviados desde ResumenActivity
+        Bundle bundle = getIntent().getExtras();
+        Campo campo = (Campo) bundle.getSerializable("campo");
+        tarifas = (List<Tarifa>) bundle.getSerializable("tarifas");
+
+        //Obtenemos total a pagar
+        BigDecimal totalPagar = new BigDecimal("0");
+
+        for(Tarifa tarifa : tarifas){
+            totalPagar = totalPagar.add(new BigDecimal(tarifa.getPrecio()));
+        }
+        btnPagar = (Button) findViewById(R.id.btnPagar);
+        btnPagar.setText("PAGAR: S/. " + formatter.format(totalPagar));
     }
 
-    private void addReserva(){
+    private void addReserva() throws Exception {
+        String datString = ((Global) getApplication()).getFechaReserva();
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(datString);
         Reserva reserva = new Reserva();
-        List<ReservaDetalle> items = new  ArrayList<ReservaDetalle>();
-        reserva.setCodigo("003");
-        reserva.setCorreo("yovanny.zeballos@resemin.com");
-        reserva.setFecha("17/17/2018");
+        final List<ReservaDetalle> items = new  ArrayList<ReservaDetalle>();
 
-        ReservaDetalle item = new ReservaDetalle();
-        item.setId_tarifa("1");
-        item.setPrecio("30");
-        items.add(item);
+        //Obtener usuario actual
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        reserva.setCorreo(currentUser.getEmail());
+        reserva.setFecha(new SimpleDateFormat("yyyy/MM/dd").format(date));
+
+
+
+        for (Tarifa tarifa: tarifas) {
+            ReservaDetalle item;
+            item = new ReservaDetalle();
+            item.setId_tarifa(tarifa.getId());
+            item.setPrecio(tarifa.getPrecio());
+            items.add(item);
+        }
+
         reserva.setItems(items);
 
-        soService.addReserva(reserva).enqueue(new Callback<ReservaPostResponse>() {
+        soService.addReserva(reserva).enqueue(new Callback<PostResponse>() {
             @Override
-            public void onResponse(Call<ReservaPostResponse> call, Response<ReservaPostResponse> response) {
+            public void onResponse(Call<PostResponse> call, final Response<PostResponse> response) {
                 if(response.isSuccessful()){
-                    ReservaPostResponse reservaPostResponse = response.body();
-                    Toast.makeText(getApplicationContext(), String.valueOf(reservaPostResponse.getResponse()), Toast.LENGTH_SHORT).show();
+                    final PostResponse reservaPostResponse = response.body();
+                    boolean exito = false;
+                    if(reservaPostResponse.getStatus() && reservaPostResponse.getResponse() > 0 ){
+                        setResult(RESULT_OK);
+                        finish();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<ReservaPostResponse> call, Throwable t) {
+            public void onFailure(Call<PostResponse> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -101,10 +142,15 @@ public class CobroActivity extends AppCompatActivity {
 
     public void PagarTarjeta(View view){
         if(!verificarCampos()){
-            addReserva();
+            try {
+                addReserva();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         else{
             Toast.makeText(getApplicationContext(), getString(R.string.faltancampos), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),((Global) getApplication()).getFechaReserva(), Toast.LENGTH_SHORT).show();
         }
     }
 }

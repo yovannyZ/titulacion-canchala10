@@ -111,3 +111,10 @@ $route['api/reserva/(:num)']['get'] = 'api/reserva/find/$1';
 $route['api/reserva']['post'] = 'api/reserva/index';
 $route['api/reserva']['put'] = 'api/reserva/index';
 $route['api/reserva/(:num)']['delete'] = 'api/reserva/index/$1';
+
+/*Route reserva_detalle*/
+$route['api/reserva_detalle']['get'] = 'api/ReservaDetalle/index';
+$route['api/reserva_detalle/(:num)']['get'] = 'api/ReservaDetalle/find/$1';
+$route['api/reserva_detalle']['post'] = 'api/ReservaDetalle/index';
+$route['api/reserva_detalle']['put'] = 'api/ReservaDetalle/index';
+$route['api/reserva_detalle/(:num)']['delete'] = 'api/ReservaDetalle/index/$1';

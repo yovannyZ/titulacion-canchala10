@@ -3,11 +3,13 @@ package titulacion.sise.canchala10.entidades;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by yovanny on 18/02/2018.
  */
 
-public class Tarifa {
+public class Tarifa implements Serializable {
 
     @SerializedName("id")
     @Expose

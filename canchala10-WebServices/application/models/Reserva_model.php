@@ -7,15 +7,16 @@ class Reserva_model extends CI_Model
     {
         parent::__construct();
         $this->load->model('ReservaDetalle_model');
-        $this->load->helper('file');
+
     }
 
     public function getAll()
     {
         $db = $this->load->database('default',TRUE);
-        $db->select("id, codigo,correo,fecha");
+        $db->select("id,correo,fecha");
         $db->from($this->table);
         $query = $db->get();
+        
         if($query->num_rows() > 0)
         {
             return $query->result();
@@ -25,7 +26,7 @@ class Reserva_model extends CI_Model
     public function get($id)
     {
         $db = $this->load->database('default',TRUE);
-        $db->select("id, codigo,correo,fecha");
+        $db->select("id,correo,fecha");
         $db->from($this->table);
         $db->where('id',$id);
         $query = $db->get();
@@ -38,24 +39,25 @@ class Reserva_model extends CI_Model
     public function create($reserva)
     {
         $idInsert = "0";
+        $items = (array)$reserva['items'];
         $db = $this->load->database('default',TRUE);
-        $db ->trans_start();
+        $db->trans_begin();
         $db->insert($this->table, $this->setData($reserva));
         if ($db->affected_rows() === 1) {
             $idInsert =  $db->insert_id();
+            foreach ($items as $item) {
+                $item['id_reserva'] = $idInsert;
+                $this->ReservaDetalle_model->create($item);
+            }
         }
-        $data = (array) $reserva['items'];
-        write_file('./file.php',json_encode($data) );
-        echo json_encode($data);
-       
 
-        $db ->trans_complete();
-
-        if ( $db->trans_status() === FALSE) {
-            $db->trans_rollback();
+        if  ($db ->trans_status() === FALSE) 
+        { 
+                $db->trans_rollback(); 
         } 
-        else {
-            $db->trans_commit();
+        else 
+        { 
+                $db->trans_commit(); 
         }
 
         return  $idInsert;
@@ -87,7 +89,6 @@ class Reserva_model extends CI_Model
     private function setData($data){
         return array(
 			'id' =>  $data['id'],
-            'codigo' => $data['codigo'],
             'correo' => $data['correo'],
             'fecha' => $data['fecha']
         );

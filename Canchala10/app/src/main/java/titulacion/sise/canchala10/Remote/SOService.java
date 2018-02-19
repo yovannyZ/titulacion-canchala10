@@ -7,11 +7,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 import titulacion.sise.canchala10.Remote.Data.CampoResponse;
 import titulacion.sise.canchala10.Remote.Data.HorarioResponse;
-import titulacion.sise.canchala10.Remote.Data.ReservaPostResponse;
-import titulacion.sise.canchala10.Remote.Data.ReservaResponse;
+import titulacion.sise.canchala10.Remote.Data.PostResponse;
 import titulacion.sise.canchala10.Remote.Data.SedeResponse;
 import titulacion.sise.canchala10.Remote.Data.TarifaResponse;
 import titulacion.sise.canchala10.entidades.Reserva;
+import titulacion.sise.canchala10.entidades.ReservaDetalle;
 
 /**
  * Created by yovanny on 14/02/2018.
@@ -35,5 +35,8 @@ public interface SOService {
     Call<TarifaResponse> getTarifasByCampo(@Path("idCampo") String idCampo);
 
     @POST("reserva")
-    Call<ReservaPostResponse> addReserva(@Body Reserva reserva);
+    Call<PostResponse> addReserva(@Body Reserva reserva);
+
+    @POST("reserva_detalle")
+    Call<PostResponse> addReservaDetalle(@Body ReservaDetalle reservaDetalle);
 }

@@ -30,6 +30,7 @@ import titulacion.sise.canchala10.R;
 import titulacion.sise.canchala10.Remote.Data.CampoResponse;
 import titulacion.sise.canchala10.Remote.SOService;
 import titulacion.sise.canchala10.Utils.ApiUtils;
+import titulacion.sise.canchala10.Utils.Global;
 import titulacion.sise.canchala10.adaptadores.AdaptadorCampos;
 import titulacion.sise.canchala10.entidades.Campo;
 import titulacion.sise.canchala10.entidades.Sede;
@@ -146,8 +147,10 @@ public class CampoFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
-                String date = month + "/" + day + "/" + year;
+                String date = day + "/" + month + "/" + year;
                 tvFecha.setText(date);
+                ((Global) getActivity().getApplication()).setFechaReserva(date);
+
                 campos = new ArrayList<Campo>();
                 recyclerViewCampos = (RecyclerView) vista.findViewById(R.id.recyclerCampo);
                 recyclerViewCampos.setLayoutManager(new LinearLayoutManager(getContext()));
