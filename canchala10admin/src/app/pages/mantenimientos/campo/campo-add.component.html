@@ -1,0 +1,44 @@
+<nb-card>
+    <nb-card-header>
+        Resgistro de Campo
+    </nb-card-header>
+      
+    <nb-card-body>
+            <toaster-container [toasterconfig]="config"></toaster-container>
+        <div class="card">
+            <div class="card-body">
+                <form #formUsuario="ngForm" (ngSubmit) = "onSubmit()" ngNativeValidate>
+                    <div class="form-group">
+                    <label for="txtDescripcion">Descripción</label>
+                    <input type="text" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripcion" name="descripcion" #descripcion="ngModel" [(ngModel)] = "campo.descripcion" required = "true">
+                    </div>
+
+                   
+
+                    <div class="form-group">
+                        <label for="txtCantidadJugadores">Cant. jugadores</label>
+                        <input type="text" class="form-control" id="txtCantidadJugadores"  name="cantidad_jugadores" #cantidad_jugadores="ngModel" [(ngModel)] = "campo.cantidad_jugadores" required = "true">
+                    </div>
+
+                   
+
+                    <div class="form-group">
+                        <label for="">Sede</label>
+                        <select class="form-control form-control-sm" name="id_sede" #id_sede="ngModel" [(ngModel)] = "campo.id_sede"  required = "true">
+                            <option *ngFor='let sede of sedes' value="{{sede.id}}">{{sede.descripcion}}</option>
+                        </select>
+                    </div>
+                  
+                    <div class="form-group">
+                        <label for="txtImagen">Imagen</label>
+                        <input type="file" class="form-control" id="txtImagen"   (change)= "fileChangeEvent($event)" >
+                    </div>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Agregar</button>
+                    <a [routerLink] = "['/pages/mantenimientos/campo']" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </nb-card-body>
+</nb-card>
+      
+        

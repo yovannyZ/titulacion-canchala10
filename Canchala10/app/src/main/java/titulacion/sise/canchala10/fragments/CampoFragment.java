@@ -1,0 +1,243 @@
+package titulacion.sise.canchala10.fragments;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import titulacion.sise.canchala10.R;
+import titulacion.sise.canchala10.Remote.Data.CampoResponse;
+import titulacion.sise.canchala10.Remote.SOService;
+import titulacion.sise.canchala10.Utils.ApiUtils;
+import titulacion.sise.canchala10.adaptadores.AdaptadorCampos;
+import titulacion.sise.canchala10.entidades.Campo;
+import titulacion.sise.canchala10.entidades.Sede;
+import titulacion.sise.canchala10.interfaces.IComunicaFragment;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link CampoFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link CampoFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class CampoFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    TextView tvImplementos ;
+    TextView tvVestidores ;
+    TextView tvSnack ;
+    TextView tvEstacionamiento ;
+    TextView tvSede ;
+    List<Campo> campos;
+    RecyclerView recyclerViewCampos;
+    SOService soService;
+    Sede sede = null;
+    TextView tvFecha;
+    int year, month, day;
+    static final int DIALOG_ID = 0;
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+
+    public CampoFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment CampoFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static CampoFragment newInstance(String param1, String param2) {
+        CampoFragment fragment = new CampoFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        final View vista = inflater.inflate(R.layout.fragment_campo, container, false);
+
+        tvImplementos = (TextView)vista.findViewById(R.id.tvImplementos);
+        tvEstacionamiento = (TextView)vista.findViewById(R.id.tvEstacionamiento);
+        tvSnack = (TextView)vista.findViewById(R.id.tvSnack);
+        tvVestidores = (TextView)vista.findViewById(R.id.tvVestidores);
+        tvSede = (TextView)vista.findViewById(R.id.tvSede);
+        Bundle bundleSede = getArguments();
+        tvFecha = (TextView)vista.findViewById(R.id.tvFecha);
+
+        if (bundleSede != null) {
+            sede = (Sede) bundleSede.getSerializable("sede");
+            tvImplementos.setText(sede.getImplementos());
+            tvEstacionamiento.setText(sede.getEstacionamiento());
+            tvSnack.setText(sede.getSnack());
+            tvVestidores.setText(sede.getVestidores());
+            tvSede.setText(sede.getDescripcion());
+
+        }
+
+        tvFecha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        getContext(),
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        mDateSetListener,
+                        year,month,day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+
+            }
+        });
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month = month + 1;
+                String date = month + "/" + day + "/" + year;
+                tvFecha.setText(date);
+                campos = new ArrayList<Campo>();
+                recyclerViewCampos = (RecyclerView) vista.findViewById(R.id.recyclerCampo);
+                recyclerViewCampos.setLayoutManager(new LinearLayoutManager(getContext()));
+                soService = ApiUtils.getSOService();
+                LlenarCampos(sede.getId());
+            }
+        };
+
+
+
+
+
+        return vista;
+    }
+
+    private void LlenarCampos(String idSede) {
+        soService.getCamposBySede(idSede).enqueue(new Callback<CampoResponse>() {
+            @Override
+            public void onResponse(Call<CampoResponse> call, Response<CampoResponse> response) {
+                if(response.isSuccessful()){
+                    CampoResponse campoResponse = response.body();
+
+                    if(campoResponse.getStatus()){
+                        campos = campoResponse.getResponse();
+
+                        AdaptadorCampos adaptadorCampos = new AdaptadorCampos(campos);
+                        recyclerViewCampos.setAdapter(adaptadorCampos);
+
+                        adaptadorCampos.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Toast.makeText(getContext(), campos.get(recyclerViewCampos.getChildAdapterPosition(view))
+                                        .getDescripcion(), Toast.LENGTH_SHORT).show();
+                                //iComunicaFragment.enviarSede(sedes.get(recyclerViewSedes.getChildAdapterPosition(view)));
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CampoResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+
+
+}

@@ -1,0 +1,39 @@
+<nb-card>
+    <nb-card-header>
+      Editar  Usuario
+    </nb-card-header>
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+        <div class="card" id="nuevoUsuario">
+            <div class="card-body">
+              <form #formUsuario="ngForm" (ngSubmit) = "onSubmit()" ngNativeValidate>
+                  <div class="form-group">
+                    <label for="txtEmail">Correo</label>
+                    <input type="email" class="form-control" id="txtEmail" placeholder="Ingrese el correo" name="correo" #correo="ngModel" [(ngModel)] = "usuario.correo" required = "true" disabled>
+                    <span *ngIf="correo.touched && !correo.valid">
+                      Ingrese el correo
+                    </span>
+                  </div>
+                  <div class="form-group">
+                    <label for="txtClave">Clave</label>
+                    <input type="password" class="form-control" id="txtClave" placeholder="Ingrese la clave" name="clave" #clave="ngModel" [(ngModel)] = "usuario.clave" required = "true" >
+                  </div>
+                  <div class="form-group">
+                    <label for="txtNombres">nombres</label>
+                    <input type="text" class="form-control" id="txtNombres" placeholder="Ingrese los nombres" name="nombres" #nombres="ngModel" [(ngModel)] = "usuario.nombres" required = "true" >
+                  </div>
+                  <div class="form-group">
+                    <label for="">Tipo de usuario</label>
+                    <select class="form-control form-control-sm" name="id_tipo_usuario" #id_tipo_usuario="ngModel" [(ngModel)] = "usuario.id_tipo_usuario"  required = "true">
+                      <option *ngFor='let tipoUsuario of tipoUsuarios' value="{{tipoUsuario.id}}" [selected]="tipoUsuario.id==usuario.id_tipo_usuario">{{tipoUsuario.descripcion}}</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Editar</button>
+                  <a [routerLink] = "['/pages/mantenimientos/usuario']" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+                </form>
+            </div>
+          </div>
+    </nb-card-body>
+</nb-card>
+
+  

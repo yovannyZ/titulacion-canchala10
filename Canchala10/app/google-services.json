@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "785637892550",
+    "firebase_url": "https://canchala10-40af9.firebaseio.com",
+    "project_id": "canchala10-40af9",
+    "storage_bucket": "canchala10-40af9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785637892550:android:c2bd96702c90c659",
+        "android_client_info": {
+          "package_name": "titulacion.sise.canchala10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785637892550-ej2e7eojkqoo2t6dsjto4kq32f30evcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "titulacion.sise.canchala10",
+            "certificate_hash": "2b6d80698b536f34fbb5bb3cac358a5a5cbca2f9"
+          }
+        },
+        {
+          "client_id": "785637892550-5ulfq4bf3ea59kj2ms6s868smik4dt4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrDRt4UmkdjJO5eTP_kfbo_vaZhXBZLfg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785637892550-5ulfq4bf3ea59kj2ms6s868smik4dt4s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

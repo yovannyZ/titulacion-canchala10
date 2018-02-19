@@ -1,0 +1,59 @@
+<nb-card>
+    <nb-card-header>
+      Mantenimiento de Usuarios
+    </nb-card-header>
+  
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+      <div class="card">
+        <div class="card-body">
+          <table class="table table-striped" [mfData]="Usuarios" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+              <thead>
+              <tr>
+                <th style="width: 40%">
+                  <mfDefaultSorter by="correo">Correo</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="nombres">Nombres</mfDefaultSorter>
+                </th>
+                <th style="width: 20%">
+                  <mfDefaultSorter by="id_tipo_usuario">Tipo</mfDefaultSorter>
+                </th>
+                <th style="width: 10%">Editar</th>
+                <th style="width: 10%">Eliminar</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let usuario of mf.data">
+                <td>{{usuario.correo}}</td>
+                <td>{{usuario.nombres}}</td>
+                <td>{{usuario.tipo_usuario.descripcion}}</td>
+                <td><a [routerLink] = "['/pages/mantenimientos/usuario-edit', usuario.correo]" class="btn btn-success btn-tn"><i class="fa fa-edit  fa-lg"></i></a></td>
+                <td><button  class="btn btn-danger btn-tn" mwlConfirmationPopover
+                  [popoverTitle]="popoverTitle"
+                  [popoverMessage]="popoverMessage"
+                  placement="left"
+                  (confirm)="deleteUsuario($event, usuario.correo)"
+                  (cancel)="cancelClicked = true"><i class="fa fa-trash  fa-lg"></i></button></td>
+               
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td colspan="4">
+                  <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+            
+            <a  class="btn btn-success" [routerLink] = "['/pages/mantenimientos/usuario-add']">
+              <i class="fa fa-plus"></i>
+              Nuevo
+            </a>
+        </div>
+        
+      </div>
+    </nb-card-body>
+  </nb-card>
+  

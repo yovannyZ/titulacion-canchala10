@@ -1,0 +1,53 @@
+<nb-card>
+    <nb-card-header>
+      Resgistro de Sede
+    </nb-card-header>
+  
+    <nb-card-body>
+        <toaster-container [toasterconfig]="config"></toaster-container>
+      <div class="card">
+        <div class="card-body">
+          <form #formUsuario="ngForm" (ngSubmit) = "onSubmit()" ngNativeValidate>
+              <div class="form-group">
+                <label for="txtDescripcion">Descripción</label>
+                <input type="text" class="form-control" id="txtDescripcion" placeholder="Ingrese la descripcion" name="descripcion" #descripcion="ngModel" [(ngModel)] = "sede.descripcion" required = "true">
+              </div>
+
+              <div class="form-group">
+                <label for="txtDireccion">Dirección</label>
+                <textarea id="txtDireccion" class="form-control" rows="4" cols="50"  placeholder="Ingrese la direccion" name="direccion" #direccion="ngModel" [(ngModel)] = "sede.direccion" required = "true"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="txtImplementos">Implementos</label>
+                <input type="text" class="form-control" id="txtImplementos"  name="implementos" #implementos="ngModel" [(ngModel)] = "sede.implementos" required = "true">
+            </div>
+
+            <div class="form-group">
+                <label for="txtEstacionamiento">Estacionamiento</label>
+                <input type="text" class="form-control" id="txtEstacionamiento"  name="estacionamiento" #estacionamiento="ngModel" [(ngModel)] = "sede.estacionamiento" required = "true">
+            </div>
+
+            <div class="form-group">
+              <label for="txtVestidores">Vestidores</label>
+              <input type="text" class="form-control" id="txtVestidores"  name="vestidores" #vestidores="ngModel" [(ngModel)] = "sede.vestidores" required = "true">
+          </div>
+
+          <div class="form-group">
+              <label for="txtSnack">Snack</label>
+              <input type="text" class="form-control" id="txtSnack"  name="snack" #snack="ngModel" [(ngModel)] = "sede.snack" required = "true">
+          </div>
+
+              <div class="form-group">
+                <label for="txtImagen">Imagen</label>
+                <input type="file" class="form-control" id="txtImagen"   (change)= "fileChangeEvent($event)" >
+              </div>
+              <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Agregar</button>
+              <a [routerLink] = "['/pages/mantenimientos/sede']" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+            </form>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  
+    

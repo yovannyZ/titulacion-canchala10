@@ -1,0 +1,67 @@
+<nb-card>
+        <nb-card-header>
+          Mantenimiento de Campos
+        </nb-card-header>
+      
+        <nb-card-body>
+            <toaster-container [toasterconfig]="config"></toaster-container>
+          <div class="card">
+            <div class="card-body">
+              <table class="table table-striped" [mfData]="Campos" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage">
+                  <thead>
+                  <tr>
+                    <th style="width: 20%">
+                      <mfDefaultSorter by="descripcion">Descripcion</mfDefaultSorter>
+                    </th>
+                    <th style="width: 30%">
+                      <mfDefaultSorter by="cantidad_jugadores">Cant. Jugadores</mfDefaultSorter>
+                    </th>
+                    <th style="width: 20%">
+                            <mfDefaultSorter by="sede">sede</mfDefaultSorter>
+                    </th>
+                    <th style="width: 20%">
+                      <mfDefaultSorter by="imagen">Imagen</mfDefaultSorter>
+                    </th>
+                    <th style="width: 10%">Editar</th>
+                    <th style="width: 10%">Eliminar</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let campo of mf.data">
+                    <td>{{campo.descripcion}}</td>
+                    <td>{{campo.cantidad_jugadores}}</td>
+                    <td>{{campo.sede.descripcion}}</td>
+                    <td>
+                      <div class="thumbnail">
+                        <img src="{{url_base}}{{campo.imagen}}" style="width:50%">
+                      </div>
+                    </td>
+                    <td><a [routerLink] = "['/pages/mantenimientos/campo-edit', campo.id]" class="btn btn-success btn-tn"><i class="fa fa-edit  fa-lg"></i></a></td>
+                    <td><button  class="btn btn-danger btn-tn" mwlConfirmationPopover
+                      [popoverTitle]="popoverTitle"
+                      [popoverMessage]="popoverMessage"
+                      placement="left"
+                      (confirm)="delete($event, campo.id)"
+                      (cancel)="cancelClicked = true"><i class="fa fa-trash  fa-lg"></i></button></td>
+                   
+                  </tr>
+                  </tbody>
+                  <tfoot>
+                  <tr>
+                    <td colspan="4">
+                      <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                    </td>
+                  </tr>
+                  </tfoot>
+                </table>
+                
+                <a  class="btn btn-success" [routerLink] = "['/pages/mantenimientos/campo-add']">
+                  <i class="fa fa-plus"></i>
+                  Nuevo
+                </a>
+            </div>
+            
+          </div>
+        </nb-card-body>
+      </nb-card>
+      
