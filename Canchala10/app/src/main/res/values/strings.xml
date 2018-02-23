@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Canchala10</string>
     <string name="title_activity_menu">Cancha la Número 10</string>
-
+    <string name="google_api_key">AIzaSyDwshTtYvFcntLr_ybC9b2YJJ6D2GKAOm4</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -18,6 +18,13 @@
     <string name="guardar">Guardar</string>
     <string name="faltancampos">Faltan campos requeridos</string>
     <string name="titulo_exito">Reserva Éxitosa</string>
+    <string name="text_mis_reservas">Mis reservas</string>
+    <string name="text_back_menu_principal">ir menu principal</string>
+    <string name="text_sedes">Sedes</string>
+    <string name="text_">Mis reservas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 package titulacion.sise.canchala10;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 
 import retrofit2.Call;
@@ -73,14 +75,13 @@ public class CobroActivity extends AppCompatActivity {
 
     private void addReserva() throws Exception {
         String datString = ((Global) getApplication()).getFechaReserva();
-        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(datString);
         Reserva reserva = new Reserva();
         final List<ReservaDetalle> items = new  ArrayList<ReservaDetalle>();
 
         //Obtener usuario actual
         FirebaseUser currentUser = mAuth.getCurrentUser();
         reserva.setCorreo(currentUser.getEmail());
-        reserva.setFecha(new SimpleDateFormat("yyyy/MM/dd").format(date));
+        reserva.setFecha(datString);
 
 
 
@@ -101,8 +102,9 @@ public class CobroActivity extends AppCompatActivity {
                     final PostResponse reservaPostResponse = response.body();
                     boolean exito = false;
                     if(reservaPostResponse.getStatus() && reservaPostResponse.getResponse() > 0 ){
-                        setResult(RESULT_OK);
-                        finish();
+                        Formatter fmt = new Formatter();
+                        fmt.format("%08d",reservaPostResponse.getResponse());
+                        irPantallaExito(fmt.toString());
                     }
                 }
             }
@@ -150,7 +152,14 @@ public class CobroActivity extends AppCompatActivity {
         }
         else{
             Toast.makeText(getApplicationContext(), getString(R.string.faltancampos), Toast.LENGTH_SHORT).show();
-            //Toast.makeText(getApplicationContext(),((Global) getApplication()).getFechaReserva(), Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void irPantallaExito(String codigoReserva){
+        Intent intent = new Intent(getApplicationContext(), ExitoActivity.class);
+        intent.putExtra("codigo", codigoReserva);
+        startActivity(intent);
+    }
+
+
 }

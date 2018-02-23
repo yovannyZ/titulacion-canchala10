@@ -110,5 +110,19 @@ class Usuario extends \Restserver\Libraries\REST_Controller
            echo 'bien';
         } 
      } 
+
+     public function getReservas_get($correo)
+    {
+        $data = $this->Usuario_model->getReservas($correo);
+
+        if($data)
+        {
+            $this->response(array('status' => true, 'response' => $data), 200);
+        }
+        else
+        {
+            $this->response(array('status' => false, 'response' => $data), 200);
+        }   
+    }
 }
 ?>

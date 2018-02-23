@@ -27,11 +27,82 @@
         android:layout_marginTop="70dp"
         android:background="#fff"
         android:elevation="4dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Presente este código de reserva al encargado de la sede."
+                android:textSize="15sp"
+                android:layout_marginBottom="10sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Su código de reserva es:"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10sp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvCodReserva"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:text="000000000000001"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_back_menu_principal"
+                    android:background="#000"
+                    android:textColor="#fff"
+                    android:layout_marginBottom="10sp"
+                    android:layout_marginTop="10sp"
+                    android:id="@+id/btnIrMenuPrincipal"
+                    android:onClick="irMenuPrincipal"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_mis_reservas"
+                    android:background="#000"
+                    android:textColor="#fff"
+                    android:id="@+id/btnMisReservas"
+                    android:onClick="irMisReservas"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
 
 
 
     </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/ivCampo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="4dp"
+        android:src="@drawable/ic_exito"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="70dp"/>
 
 </RelativeLayout>

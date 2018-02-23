@@ -82,5 +82,31 @@ class Usuario_model extends CI_Model
         return null;
     } 
 
+    public function getReservas($correo){
+        $this->load->model('Reserva_model');
+        $this->load->model('ReservaDetalle_model');
+        
+        $db = $this->load->database('default',TRUE);
+        $db->select("id,correo,fecha");
+        $db->from('reserva');
+        $db->where('correo',$correo);  
+        $query = $db->get();
+        $array = array();
+
+        if($query->num_rows() > 0)
+        {
+            $reservas = $query->result();
+
+            foreach ($reservas as $reserva) 
+            {
+                $detalle = $this->ReservaDetalle_model->getAllByReserva($reserva->id);
+                $reserva->detalles =  $detalle;
+                $array[] = $reserva;
+            }
+
+            return $array;
+        }
+
+    }
 }
 ?>

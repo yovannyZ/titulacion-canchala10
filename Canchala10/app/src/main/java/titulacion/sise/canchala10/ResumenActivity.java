@@ -140,7 +140,6 @@ public class ResumenActivity extends AppCompatActivity {
         bundleEnvio.putSerializable("tarifas",  (Serializable) tarifasSeleccionadas);
         intent.putExtras(bundleEnvio);
         startActivityForResult(intent, REQUEST_CODE);
-
     }
 
 }

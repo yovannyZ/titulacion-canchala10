@@ -27,6 +27,7 @@ import titulacion.sise.canchala10.entidades.Campo;
 import titulacion.sise.canchala10.entidades.Horario;
 import titulacion.sise.canchala10.entidades.Sede;
 import titulacion.sise.canchala10.fragments.CampoFragment;
+import titulacion.sise.canchala10.fragments.MisReservasFragment;
 import titulacion.sise.canchala10.fragments.ResumenFragment;
 import titulacion.sise.canchala10.fragments.SedeFragment;
 import titulacion.sise.canchala10.interfaces.IComunicaFragment;
@@ -34,11 +35,11 @@ import titulacion.sise.canchala10.interfaces.IComunicaFragment;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SedeFragment.OnFragmentInteractionListener, CampoFragment.OnFragmentInteractionListener,
-        ResumenFragment.OnFragmentInteractionListener, IComunicaFragment {
+        MisReservasFragment.OnFragmentInteractionListener, IComunicaFragment {
 
     SedeFragment sedeFragment;
     CampoFragment campoFragment;
-    ResumenFragment resumenFragment;
+    MisReservasFragment misReservasFragment;
 
 
     TextView tvCorreo;
@@ -121,10 +122,18 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
+        if (id == R.id.nav_sedes) {
+            sedeFragment = new SedeFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contenedor, sedeFragment)
+                    .commit();
+        } else if (id == R.id.nav_mis_reservas) {
+            misReservasFragment = new MisReservasFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contenedor, misReservasFragment)
+                    .commit();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -162,25 +171,11 @@ public class MenuActivity extends AppCompatActivity
 
     @Override
     public void enviarResumen(Campo campo, List<Horario> horarios) {
-
         Intent intent = new Intent(getApplicationContext(), ResumenActivity.class);
         Bundle bundleEnvio = new Bundle();
         bundleEnvio.putSerializable("campo", campo);
         bundleEnvio.putSerializable("horarios",  (Serializable) horarios);
         intent.putExtras(bundleEnvio);
         startActivity(intent);
-
-        /*resumenFragment = new ResumenFragment();
-
-
-        resumenFragment.setArguments(bundleEnvio);
-
-        //Cargar el fragment en el activity
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contenedor, resumenFragment)
-                .addToBackStack(null)
-                .commit();*/
     }
 }

@@ -23,6 +23,10 @@ public class Reserva implements Serializable {
     @Expose
     private String fecha;
 
+    @SerializedName("detalles")
+    @Expose
+    private List<Items> detalles;
+
     @SerializedName("items")
     @Expose
     private List<ReservaDetalle> items;
@@ -57,5 +61,13 @@ public class Reserva implements Serializable {
 
     public void setItems(List<ReservaDetalle> items) {
         this.items = items;
+    }
+
+    public List<Items> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<Items> detalles) {
+        this.detalles = detalles;
     }
 }

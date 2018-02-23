@@ -39,7 +39,7 @@ public class AdaptadorHorarios extends
     @Override
     public void onBindViewHolder(HorarioViewHolder holder, int position) {
         holder.tvHorario.setText(horarios.get(position).getHoraInicio() +" - "+horarios.get(position).getHoraFin() );
-
+        holder.chkHorario.setTag(horarios.get(position).getId());
     }
 
     @Override

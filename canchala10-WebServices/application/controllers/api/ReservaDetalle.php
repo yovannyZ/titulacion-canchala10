@@ -93,5 +93,16 @@ class ReservaDetalle extends \Restserver\Libraries\REST_Controller
     }
 
   
+    public function gethorasByFecha_get($idCampo,$fecha)
+    {
+      
+        $id = $this->ReservaDetalle_model->gethorasByFecha($idCampo, $fecha);
+        if ($id) {
+            $this->response(array('status' => true, 'response' => $id), 200);
+        } else {
+            $this->response(array('status' => false, 'response' => 'There was an error processing the data.'), 500);
+        }
+    }
+
 }
 ?>

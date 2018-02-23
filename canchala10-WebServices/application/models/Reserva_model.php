@@ -47,7 +47,8 @@ class Reserva_model extends CI_Model
             $idInsert =  $db->insert_id();
             foreach ($items as $item) {
                 $item['id_reserva'] = $idInsert;
-                $this->ReservaDetalle_model->create($item);
+                $db->insert("reserva_detalle", $item);
+              
             }
         }
 
@@ -93,6 +94,9 @@ class Reserva_model extends CI_Model
             'fecha' => $data['fecha']
         );
     }
+
+
+    
 
 }
 

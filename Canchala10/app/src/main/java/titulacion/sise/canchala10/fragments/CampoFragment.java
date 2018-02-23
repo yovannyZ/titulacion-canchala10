@@ -148,8 +148,9 @@ public class CampoFragment extends Fragment {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = day + "/" + month + "/" + year;
+                String date2 = year + "-" + month + "-" + day;
                 tvFecha.setText(date);
-                ((Global) getActivity().getApplication()).setFechaReserva(date);
+                ((Global) getActivity().getApplication()).setFechaReserva(date2);
 
                 campos = new ArrayList<Campo>();
                 recyclerViewCampos = (RecyclerView) vista.findViewById(R.id.recyclerCampo);
@@ -160,7 +161,7 @@ public class CampoFragment extends Fragment {
         };
 
 
-
+        //LlenarCampos(sede.getId());
 
 
         return vista;

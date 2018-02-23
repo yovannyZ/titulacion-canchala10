@@ -74,6 +74,8 @@ $route['api/usuario/(:any)']['get'] = 'api/usuario/find/$1';
 $route['api/usuario']['post'] = 'api/usuario/index';
 $route['api/usuario']['put'] = 'api/usuario/index';
 $route['api/usuario/(:any)']['delete'] = 'api/usuario/index/$1';
+$route['api/usuario/(:any)/reservas']['get'] = 'api/usuario/getReservas/$1';
+
 
 /*Route sede*/
 $route['api/sede']['get'] = 'api/sede/index';
@@ -118,3 +120,4 @@ $route['api/reserva_detalle/(:num)']['get'] = 'api/ReservaDetalle/find/$1';
 $route['api/reserva_detalle']['post'] = 'api/ReservaDetalle/index';
 $route['api/reserva_detalle']['put'] = 'api/ReservaDetalle/index';
 $route['api/reserva_detalle/(:num)']['delete'] = 'api/ReservaDetalle/index/$1';
+$route['api/campo/(:num)/(:any)/horarios']['get'] = 'api/ReservaDetalle/gethorasByFecha/$1/$2';

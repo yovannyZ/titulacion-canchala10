@@ -1,11 +1,9 @@
 package titulacion.sise.canchala10.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,29 +11,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import titulacion.sise.canchala10.R;
-import titulacion.sise.canchala10.Remote.Data.SedeResponse;
+import titulacion.sise.canchala10.Remote.Data.ReservaResponse;
 import titulacion.sise.canchala10.Remote.SOService;
 import titulacion.sise.canchala10.Utils.ApiUtils;
-import titulacion.sise.canchala10.adaptadores.AdaptadorSedes;
-import titulacion.sise.canchala10.entidades.Sede;
-import titulacion.sise.canchala10.interfaces.IComunicaFragment;
+import titulacion.sise.canchala10.adaptadores.AdaptadorMisReservas;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SedeFragment.OnFragmentInteractionListener} interface
+ * {@link MisReservasFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SedeFragment#newInstance} factory method to
+ * Use the {@link MisReservasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SedeFragment extends Fragment {
+public class MisReservasFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,14 +43,11 @@ public class SedeFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    List<Sede> sedes;
-    RecyclerView recyclerViewSedes;
     SOService soService;
-    private GridLayoutManager glm;
-    Activity activity;
-    IComunicaFragment iComunicaFragment;
+    private FirebaseAuth mAuth;
+    RecyclerView rvMisreservas;
 
-    public SedeFragment() {
+    public MisReservasFragment() {
         // Required empty public constructor
     }
 
@@ -64,11 +57,11 @@ public class SedeFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SedeFragment.
+     * @return A new instance of fragment MisReservasFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SedeFragment newInstance(String param1, String param2) {
-        SedeFragment fragment = new SedeFragment();
+    public static MisReservasFragment newInstance(String param1, String param2) {
+        MisReservasFragment fragment = new MisReservasFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -88,43 +81,15 @@ public class SedeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View vista = inflater.inflate(R.layout.fragment_sede, container, false);
-        sedes = new ArrayList<Sede>();
-        recyclerViewSedes = (RecyclerView) vista.findViewById(R.id.recyclerSede);
-        recyclerViewSedes.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Inflate the layout for this fragment
+        final View vista = inflater.inflate(R.layout.fragment_mis_reservas, container, false);
+
+        rvMisreservas = (RecyclerView) vista.findViewById(R.id.rvMisReservas);
+        rvMisreservas.setLayoutManager(new LinearLayoutManager(getContext()));
         soService = ApiUtils.getSOService();
-
-        LlenarSedes();
-
-
+        mAuth = FirebaseAuth.getInstance();
+        obtenerReserva();
         return vista;
-    }
-
-    private void LlenarSedes() {
-        soService.getSedes().enqueue(new Callback<SedeResponse>() {
-            @Override
-            public void onResponse(Call<SedeResponse> call, Response<SedeResponse> response) {
-                if(response.isSuccessful()){
-                    SedeResponse sedeResponse = response.body();
-                    sedes = sedeResponse.getResponse();
-                    AdaptadorSedes adaptadorSedes = new AdaptadorSedes(sedes);
-                    recyclerViewSedes.setAdapter(adaptadorSedes);
-
-                    adaptadorSedes.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            iComunicaFragment.enviarSede(sedes.get(recyclerViewSedes.getChildAdapterPosition(view)));
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<SedeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -137,12 +102,6 @@ public class SedeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        if(context instanceof Activity){
-            this.activity =(Activity) context;
-            iComunicaFragment =(IComunicaFragment) this.activity;
-        }
-
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -170,5 +129,26 @@ public class SedeFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void obtenerReserva(){
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        soService.getReservasByUsuario(currentUser.getEmail()).enqueue(new Callback<ReservaResponse>() {
+            @Override
+            public void onResponse(Call<ReservaResponse> call, Response<ReservaResponse> response) {
+                if(response.isSuccessful()){
+                    ReservaResponse reservaResponse = response.body();
+                    if(reservaResponse.getStatus()){
+                        AdaptadorMisReservas adaptadorMisReservas = new AdaptadorMisReservas(reservaResponse.getReserva());
+                        rvMisreservas.setAdapter(adaptadorMisReservas);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReservaResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Error : " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
