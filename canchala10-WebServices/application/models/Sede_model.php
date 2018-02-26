@@ -12,7 +12,7 @@ class Sede_model extends CI_Model
     public function getAll()
     {
         $db = $this->load->database('default',TRUE);
-        $db->select("id, descripcion,direccion,implementos,vestidores,snack,estacionamiento,url_imagen,estado");
+        $db->select("id, descripcion,direccion,implementos,vestidores,snack,estacionamiento,url_imagen,estado, latitud, longitud");
         $db->from($this->table);
         $query = $db->get();
         if($query->num_rows() > 0)
@@ -24,7 +24,7 @@ class Sede_model extends CI_Model
     public function get($id)
     {
         $db = $this->load->database('default',TRUE);
-        $db->select("id, descripcion,direccion,implementos,vestidores,snack,estacionamiento,url_imagen,estado");
+        $db->select("id, descripcion,direccion,implementos,vestidores,snack,estacionamiento,url_imagen,estado, latitud, longitud");
         $db->from($this->table);
         $db->where('id',$id);
         $query = $db->get();

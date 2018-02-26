@@ -1,11 +1,13 @@
 package titulacion.sise.canchala10;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +18,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,7 +45,8 @@ public class MenuActivity extends AppCompatActivity
     SedeFragment sedeFragment;
     CampoFragment campoFragment;
     MisReservasFragment misReservasFragment;
-
+    private static final String TAG = "MenuActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
 
     TextView tvCorreo;
 
@@ -134,9 +140,10 @@ public class MenuActivity extends AppCompatActivity
                     .beginTransaction()
                     .replace(R.id.contenedor, misReservasFragment)
                     .commit();
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_localizacion) {
+            if(isServicesOK()){
+                irMapa();
+            }
 
         } else if (id == R.id.nav_share) {
 
@@ -176,6 +183,32 @@ public class MenuActivity extends AppCompatActivity
         bundleEnvio.putSerializable("campo", campo);
         bundleEnvio.putSerializable("horarios",  (Serializable) horarios);
         intent.putExtras(bundleEnvio);
+        startActivity(intent);
+    }
+
+    public boolean isServicesOK(){
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MenuActivity.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            //everything is fine and the user can make map requests
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+            return true;
+        }
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occured but we can resolve it
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MenuActivity.this, available, ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+    }
+
+    private void irMapa(){
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
     }
 }

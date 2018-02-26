@@ -39,6 +39,12 @@ public class Sede implements Serializable {
     @SerializedName("estado")
     @Expose
     private String estado;
+    @SerializedName("longitud")
+    @Expose
+    private double longitud;
+    @SerializedName("latitud")
+    @Expose
+    private double latitud;
 
     public String getId() {
         return id;
@@ -112,4 +118,19 @@ public class Sede implements Serializable {
         this.estado = estado;
     }
 
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
 }

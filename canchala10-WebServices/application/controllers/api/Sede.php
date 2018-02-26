@@ -52,7 +52,10 @@ class Sede extends \Restserver\Libraries\REST_Controller
             'implementos' => $this->post('implementos'),
             'vestidores' => $this->post('vestidores'),
             'snack' => $this->post('snack'),
-            'estacionamiento' => $this->post('estacionamiento')
+            'estacionamiento' => $this->post('estacionamiento'),
+            'latitud' => $this->post('latitud'),
+            'longitud' => $this->post('longitud')
+            
             
         );
 
@@ -75,7 +78,9 @@ class Sede extends \Restserver\Libraries\REST_Controller
             'implementos' => $this->put('implementos'),
             'vestidores' => $this->put('vestidores'),
             'snack' => $this->put('snack'),
-            'estacionamiento' => $this->put('estacionamiento')
+            'estacionamiento' => $this->put('estacionamiento'),
+            'latitud' => $this->put('latitud'),
+            'longitud' => $this->put('longitud')
         );
         
         $update = $this->Sede_model->update($data);
