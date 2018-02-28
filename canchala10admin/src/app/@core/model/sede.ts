@@ -8,6 +8,10 @@ export class Sede{
         public vestidores:string,
         public estacionamiento:string,
         public snack:string,
-        public implementos:string
+        public implementos:string,
+        public latitud:string,
+        public longitud:string,
+        public telefono:string,
+        public hora_atencion:string,      
     ){}
 }

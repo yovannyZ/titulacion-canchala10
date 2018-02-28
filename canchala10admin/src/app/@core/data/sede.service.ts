@@ -40,6 +40,10 @@ export class SedeService {
         body.set('vestidores',sede.vestidores);
         body.set('estacionamiento',sede.estacionamiento);
         body.set('snack',sede.snack);
+        body.set('telefono',sede.telefono);
+        body.set('hora_atencion',sede.hora_atencion);
+        body.set('latitud',sede.latitud);
+        body.set('longitud',sede.longitud);
         
         let headers = new Headers();
         headers.append('Content-Type','application/x-www-form-urlencoded');
@@ -58,6 +62,11 @@ export class SedeService {
         body.set('vestidores',sede.vestidores);
         body.set('estacionamiento',sede.estacionamiento);
         body.set('snack',sede.snack);
+        body.set('telefono',sede.telefono);
+        body.set('hora_atencion',sede.hora_atencion);
+        body.set('latitud',sede.latitud);
+        body.set('longitud',sede.longitud);
+        
         let headers = new Headers();
         headers.append('Content-Type','application/x-www-form-urlencoded');
         return this._http.put(this.url + 'sede', body, { headers: headers })

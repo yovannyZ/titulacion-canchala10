@@ -29,7 +29,7 @@ import 'style-loader!angular2-toaster/toaster.css';
     constructor(
       private _sedeService:SedeService,
       private toasterService: ToasterService) {
-      this.sede = new Sede(0,"","","",false,"","","","");
+      this.sede = new Sede(0,"","","",false,"","","","","","","","");
     }
 
     ngOnInit() {
@@ -60,7 +60,7 @@ import 'style-loader!angular2-toaster/toaster.css';
                 res => {
                   if(res.status){
                     this.showToast("info", "Éxito", "Sede agregada corectamente");
-                    this.sede = new Sede(0,"","","",false,"","","","");
+                    this.sede = new Sede(0,"","","",false,"","","","","","","","");
                   }
                 },
                 err => {

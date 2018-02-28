@@ -10,9 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -59,6 +63,24 @@ public class LoginActivity extends AppCompatActivity {
                             updateUI(null);
                         }
                     }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+                            Toast.makeText(getApplicationContext(), "Email o Password incorrecto",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (e instanceof FirebaseAuthInvalidUserException) {
+                            Toast.makeText(getApplicationContext(), "Email incorrecto",
+                                    Toast.LENGTH_LONG).show();
+                        } else if (e instanceof FirebaseAuthUserCollisionException) {
+                            Toast.makeText(getApplicationContext(), "El email ya existe, favor de ingresar otro email",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
                 });
     }
 
@@ -68,5 +90,10 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    public void irRegistro(View view){
+        Intent intent = new Intent(getApplicationContext(), RegistroActivity.class);
+        startActivity(intent);
     }
 }

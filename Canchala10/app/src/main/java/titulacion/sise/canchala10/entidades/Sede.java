@@ -45,6 +45,12 @@ public class Sede implements Serializable {
     @SerializedName("latitud")
     @Expose
     private double latitud;
+    @SerializedName("telefono")
+    @Expose
+    private String telefono;
+    @SerializedName("hora_atencion")
+    @Expose
+    private String hora_atencion;
 
     public String getId() {
         return id;
@@ -132,5 +138,21 @@ public class Sede implements Serializable {
 
     public void setLatitud(double latitud) {
         this.latitud = latitud;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getHora_atencion() {
+        return hora_atencion;
+    }
+
+    public void setHora_atencion(String hora_atencion) {
+        this.hora_atencion = hora_atencion;
     }
 }

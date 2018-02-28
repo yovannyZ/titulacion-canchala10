@@ -38,6 +38,26 @@
               <input type="text" class="form-control" id="txtSnack"  name="snack" #snack="ngModel" [(ngModel)] = "sede.snack" required = "true">
           </div>
 
+          <div class="form-group">
+            <label for="txtLatitud">Latitud</label>
+            <input type="text" class="form-control" id="txtLatitud"  name="latitud" #latitud="ngModel" [(ngModel)] = "sede.latitud" required = "true">
+        </div>
+
+        <div class="form-group">
+          <label for="txtLongitud">Longitud</label>
+          <input type="text" class="form-control" id="txtLongitud"  name="longitud" #longitud="ngModel" [(ngModel)] = "sede.longitud" required = "true">
+      </div>
+
+      <div class="form-group">
+        <label for="txtTelefono">Telefono</label>
+        <input type="text" class="form-control" id="txtTelefono"  name="telefono" #telefono="ngModel" [(ngModel)] = "sede.telefono" required = "true">
+    </div>
+
+    <div class="form-group">
+      <label for="txtHoraAtencion">Hora de antencion</label>
+      <input type="text" class="form-control" id="txtHoraAtencion"  name="hora_atencion" #hora_atencion="ngModel" [(ngModel)] = "sede.hora_atencion" required = "true">
+  </div>
+
               <div class="form-group">
                 <label for="txtImagen">Imagen</label>
                 <input type="file" class="form-control" id="txtImagen"   (change)= "fileChangeEvent($event)" >

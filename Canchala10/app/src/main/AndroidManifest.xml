@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
 
     <application
         android:name=".Utils.Global"
@@ -39,7 +41,8 @@
         <activity android:name=".CobroActivity" />
         <activity android:name=".ExitoActivity" />
         <activity android:name=".MapActivity" />
-        <activity android:name=".InformationSedeActivity"></activity>
+        <activity android:name=".InformationSedeActivity" />
+        <activity android:name=".RegistroActivity"></activity>
     </application>
 
 </manifest>

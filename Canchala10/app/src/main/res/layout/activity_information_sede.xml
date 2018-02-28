@@ -62,62 +62,16 @@
         android:textColor="@color/colorPrimaryDark"/>
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lunes a Viernes"
-        android:textColor="@color/colorPrimaryDark"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="09:00 a 24:00"
-        android:gravity="right"
-        android:textColor="@color/colorPrimaryDark"/>
-
-</LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sabado"
-            android:textColor="@color/colorPrimaryDark"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="09:00 a 24:00"
-            android:gravity="right"
-            android:textColor="@color/colorPrimaryDark"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Domingo"
-            android:textColor="@color/colorPrimaryDark"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="09:00 a 24:00"
-            android:gravity="right"
-            />
-
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/tvHoraAtencion"/>
     </LinearLayout>
 
     <View
@@ -132,20 +86,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10sp">
+        android:padding="10sp"
+        android:onClick="llamarTelefono"
+        android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Telefono"
-            android:clickable="true"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:clickable="false"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="(01) 283-2547"
             android:gravity="right"
-            android:textColor="@color/colorPrimaryDark"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:id="@+id/tvTelefono"
+            android:clickable="false"/>
     </LinearLayout>
 
     <View
@@ -169,7 +127,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(01) 283-2547"
+            android:text="3h 12min"
             android:gravity="right"
             android:textColor="@color/link"
             />
@@ -197,7 +155,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="(01) 283-2547"
+            android:text="31 min"
             android:gravity="right"
             android:textColor="@color/link"/>
     </LinearLayout>

@@ -26,9 +26,9 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_cerrar_sesion"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="Cerrar sesión" />
         </menu>
     </item>
 

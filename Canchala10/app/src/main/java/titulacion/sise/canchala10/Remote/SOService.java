@@ -13,8 +13,11 @@ import titulacion.sise.canchala10.Remote.Data.ReservaDetalleResponse;
 import titulacion.sise.canchala10.Remote.Data.ReservaResponse;
 import titulacion.sise.canchala10.Remote.Data.SedeResponse;
 import titulacion.sise.canchala10.Remote.Data.TarifaResponse;
+import titulacion.sise.canchala10.Remote.Data.UsuarioPostResponse;
+import titulacion.sise.canchala10.Remote.Data.UsuarioResponse;
 import titulacion.sise.canchala10.entidades.Reserva;
 import titulacion.sise.canchala10.entidades.ReservaDetalle;
+import titulacion.sise.canchala10.entidades.Usuario;
 
 /**
  * Created by yovanny on 14/02/2018.
@@ -51,4 +54,7 @@ public interface SOService {
 
     @POST("reserva/reserva_detalle/campo")
     Call<ReservaDetalleResponse> getHorasByCampoFecha(@Body ReservaDetalleRequest request);
+
+    @POST("usuario")
+    Call<UsuarioPostResponse> addUsuario(@Body Usuario usuario);
 }

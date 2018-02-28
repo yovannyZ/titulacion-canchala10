@@ -13,7 +13,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginTop="22dp"
         android:gravity="center_horizontal"
-        android:text="@string/titulo_login"
+        android:text="@string/titulo_registro"
         android:textColor="#000"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -43,12 +43,27 @@
                 <EditText
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@android:drawable/radiobutton_off_background"
+                    android:drawableTint="#FF4081"
+                    android:hint="Nombres"
+                    android:inputType="text"
+                    android:singleLine="true"
+                    android:id="@+id/tvNombres"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
                     android:drawableLeft="@android:drawable/sym_action_email"
                     android:drawableTint="#FF4081"
                     android:hint="Email"
                     android:inputType="textEmailAddress"
                     android:singleLine="true"
-                    android:id="@+id/txtEmail"/>
+                    android:id="@+id/tvEmail"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -64,40 +79,19 @@
                     android:drawableTint="#FF4081"
                     android:hint="Password"
                     android:inputType="textPassword"
-                    android:id="@+id/txtPassword"/>
+                    android:id="@+id/tvPassword"/>
             </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:paddingTop="5dp"
-                android:text="Olvido su contraseña?" />
-
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="22dp"
                 android:background="#000"
-                android:text="Iniciar sesion"
+                android:text="Registrar"
                 android:textColor="#fff"
                 android:textSize="18sp"
-                android:id="@+id/btnLogin"
-                android:onClick="iniciarSesion"/>
-
-            <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="22dp"
-                android:layout_marginRight="22dp"
-                android:background="#000"
-                android:text="registrarse"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:id="@+id/btnRegistro"
-                android:onClick="irRegistro"/>
-
+                android:id="@+id/btnRegistrar"
+                android:onClick="registrar"/>
         </LinearLayout>
     </RelativeLayout>
 

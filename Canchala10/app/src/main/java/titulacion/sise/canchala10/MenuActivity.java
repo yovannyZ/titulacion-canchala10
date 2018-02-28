@@ -47,7 +47,6 @@ public class MenuActivity extends AppCompatActivity
     MisReservasFragment misReservasFragment;
     private static final String TAG = "MenuActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
-
     TextView tvCorreo;
 
     @Override
@@ -56,7 +55,6 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +73,25 @@ public class MenuActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        sedeFragment = new SedeFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.contenedor, sedeFragment)
-                .commit();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+
+        if(bundle != null)
+        {
+            misReservasFragment = new MisReservasFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contenedor, misReservasFragment)
+                    .commit();
+        }else{
+            sedeFragment = new SedeFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.contenedor, sedeFragment)
+                    .commit();
+        }
+
+
 
         View headerView = navigationView.getHeaderView(0);
         tvCorreo = (TextView)headerView.findViewById(R.id.tvCorreoSesion);
@@ -147,8 +159,8 @@ public class MenuActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_cerrar_sesion) {
+            cerrarSesion();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,5 +222,12 @@ public class MenuActivity extends AppCompatActivity
     private void irMapa(){
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
+    }
+
+    private void cerrarSesion(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

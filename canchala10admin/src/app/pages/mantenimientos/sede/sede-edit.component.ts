@@ -35,7 +35,7 @@ export class SedeEditComponent implements OnInit {
     private toasterService: ToasterService) {
 
     this.url_base = GLOBAL.url_base
-    this.sede = new Sede(0,'','','',true,"","","","");
+    this.sede = new Sede(0,'','','',true,"","","","","","","","");
    }
 
   ngOnInit() {
@@ -83,14 +83,14 @@ export class SedeEditComponent implements OnInit {
   saveSede(){
     let sedeEdit = new Sede(this.sede.id, this.sede.descripcion, this.sede.direccion, 
       this.sede.url_imagen, this.sede.estado, this.sede.vestidores, this.sede.estacionamiento,
-    this.sede.snack, this.sede.implementos);
+    this.sede.snack, this.sede.implementos, this.sede.latitud, this.sede.longitud, this.sede.telefono, this.sede.hora_atencion);
     console.log(sedeEdit);
     this._sedeService.edit(sedeEdit)
     .subscribe(
       res => {
         if(res.status){
           this.showToast("info", "Éxito", "sede actualizada correctamente ");
-          this.sede = new Sede(0,"","","", true, "", "", "", "");
+          this.sede = new Sede(0,"","","", true, "", "", "", "","","","","");
         }
       },
       err => {
